@@ -5,15 +5,11 @@ import 'package:chatter/pages/messages_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  final ValueNotifier<int> pageIndex = ValueNotifier(0);
 
-class _HomeScreenState extends State<HomeScreen> {
-  // I don't really understand why we're using final -> const right here.
   final pages = const [
     MessagesPage(),
     NotificationsPage(),
@@ -21,18 +17,16 @@ class _HomeScreenState extends State<HomeScreen> {
     ContactsPage(),
   ];
 
-  var index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: pages[index],
-        bottomNavigationBar: _BottomNavigationBar(
-          onItemSelected: (i) {
-            setState(() {
-              index = i;
-            });
-          },
-        ));
+      body: pages[pageIndex.value],
+      bottomNavigationBar: _BottomNavigationBar(
+        onItemSelected: (index) {
+          pageIndex.value = index;
+        },
+      ),
+    );
   }
 }
 
